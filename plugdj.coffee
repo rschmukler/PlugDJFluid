@@ -11,7 +11,16 @@ class PlugDJFluidApp
     API.addEventListener(API.DJ_UPDATE, @djBoothChange)
 
   djBoothChange: (djs) =>
-    @tryToDJ() if djs.length < 5
+    if djs.length < 5
+      unless @muted
+        growlOptions =
+          title: "DJ Spot available"
+          description: "Click to try and grab it"
+          sticky: true
+          onclick: @tryToDJ
+
+        window.fluid.showGrowlNotification(growlOptions)
+
 
   toggleMute: =>
     if @muted
@@ -36,6 +45,7 @@ class PlugDJFluidApp
 
   tryToDJ: ->
     $('#button-dj-play').click()
+    @showWindow()
 
 
 
