@@ -30,8 +30,17 @@
     };
 
     PlugDJFluidApp.prototype.djBoothChange = function(djs) {
+      var growlOptions;
       if (djs.length < 5) {
-        return this.tryToDJ();
+        if (!this.muted) {
+          growlOptions = {
+            title: "DJ Spot available",
+            description: "Click to try and grab it",
+            sticky: true,
+            onclick: this.tryToDJ
+          };
+          return window.fluid.showGrowlNotification(growlOptions);
+        }
       }
     };
 
@@ -60,7 +69,8 @@
     };
 
     PlugDJFluidApp.prototype.tryToDJ = function() {
-      return $('#button-dj-play').click();
+      $('#button-dj-play').click();
+      return this.showWindow();
     };
 
     PlugDJFluidApp.prototype.showWindow = function() {
