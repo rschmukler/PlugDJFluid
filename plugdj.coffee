@@ -66,7 +66,7 @@ class PlugDJFluidApp
     else
       return "#{minutes}:#{seconds}"
 
-  tryToDJ: ->
+  tryToDJ: =>
     $('#button-dj-play').click()
     @showWindow()
 

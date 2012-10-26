@@ -14,6 +14,8 @@
 
       this.showWindow = __bind(this.showWindow, this);
 
+      this.tryToDJ = __bind(this.tryToDJ, this);
+
       this.toggleMute = __bind(this.toggleMute, this);
 
       this.chatMessageHappened = __bind(this.chatMessageHappened, this);
