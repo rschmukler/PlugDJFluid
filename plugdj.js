@@ -16,6 +16,8 @@
 
       this.toggleMute = __bind(this.toggleMute, this);
 
+      this.chatMessageHappened = __bind(this.chatMessageHappened, this);
+
       this.djBoothChange = __bind(this.djBoothChange, this);
       this.muted = false;
       this.setEvents();
@@ -26,7 +28,8 @@
       API.addEventListener(API.USER_FAN, this.newFan);
       API.addEventListener(API.FRIEND_JOIN, this.friendJoin);
       API.addEventListener(API.DJ_ADVANCE, this.trackChange);
-      return API.addEventListener(API.DJ_UPDATE, this.djBoothChange);
+      API.addEventListener(API.DJ_UPDATE, this.djBoothChange);
+      return API.addEventListener(API.CHAT, this.chatMessageHappened);
     };
 
     PlugDJFluidApp.prototype.djBoothChange = function(djs) {
@@ -42,6 +45,36 @@
           return window.fluid.showGrowlNotification(growlOptions);
         }
       }
+    };
+
+    PlugDJFluidApp.prototype.chatMessageHappened = function(data) {
+      var growlOptions;
+      if (this.isDJing()) {
+        if (data.type === "message") {
+          if (data.message.match(/^\/djs/)) {
+            growlOptions = {
+              title: "DJ Status Ping",
+              description: "Click to show window",
+              sticky: true,
+              onclick: this.showWindow
+            };
+            return window.fluid.showGrowlNotification(growlOptions);
+          }
+        }
+      }
+    };
+
+    PlugDJFluidApp.prototype.isDJing = function() {
+      var dj, username, _i, _len, _ref;
+      username = API.getSelf().username;
+      _ref = API.getDJs();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        dj = _ref[_i];
+        if (dj.username === username) {
+          return true;
+        }
+      }
+      return false;
     };
 
     PlugDJFluidApp.prototype.toggleMute = function() {
