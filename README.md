@@ -8,6 +8,7 @@ Adds basic [Fluip.app](http://fluidapp.com/) support for
 - Track change
 - New Fan
 - DJ Spot available
+- DJ ping if /djs is called and you are djing
 
 ### DJ Spots Open Notification Grabbing
 Click the growl notification to grab the DJ spot (or try to)

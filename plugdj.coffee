@@ -9,6 +9,7 @@ class PlugDJFluidApp
     API.addEventListener(API.FRIEND_JOIN, @friendJoin)
     API.addEventListener(API.DJ_ADVANCE, @trackChange)
     API.addEventListener(API.DJ_UPDATE, @djBoothChange)
+    API.addEventListener(API.CHAT, @chatMessageHappened)
 
   djBoothChange: (djs) =>
     if djs.length < 5
@@ -20,6 +21,28 @@ class PlugDJFluidApp
           onclick: @tryToDJ
 
         window.fluid.showGrowlNotification(growlOptions)
+
+
+  chatMessageHappened: (data) =>
+    if @isDJing()
+      if data.type == "message"
+        if data.message.match /^\/djs/
+          growlOptions =
+            title: "DJ Status Ping"
+            description: "Click to show window"
+            sticky: true
+            onclick: @showWindow
+
+          window.fluid.showGrowlNotification(growlOptions)
+
+
+  isDJing: ->
+    username = API.getSelf().username
+
+    for dj in API.getDJs()
+      return true if dj.username == username
+
+    return false
 
 
   toggleMute: =>
