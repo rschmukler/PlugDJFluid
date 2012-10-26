@@ -11,3 +11,10 @@ Growl Notifications for:
 Also adds dock options to mute Plug.dj (and subsequently surpress the
 Growl notifications).
 
+## Installation
+
+1) Create a new Fluid app pointing to `http://plug.dj`
+2) Set the icon to the `PlugDJIcon.png`
+3) Add a userscript for `http://*plug.dj*`
+4) Paste the contests of `plugdj.js` into the userscript window.
+
