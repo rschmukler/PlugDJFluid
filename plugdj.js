@@ -22,6 +22,7 @@
 
       this.djBoothChange = __bind(this.djBoothChange, this);
       this.muted = false;
+      this.autowoot = true;
       this.setEvents();
       window.fluid.addDockMenuItem("Mute", this.toggleMute);
     }
@@ -149,7 +150,10 @@
           sticky: false,
           onclick: this.showWindow
         };
-        return window.fluid.showGrowlNotification(growlOptions);
+        window.fluid.showGrowlNotification(growlOptions);
+      }
+      if (this.autowoot) {
+        return $('#button-vote-positive').click();
       }
     };
 

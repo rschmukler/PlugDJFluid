@@ -1,6 +1,7 @@
 class PlugDJFluidApp
   constructor: ->
     @muted = false
+    @autowoot = true
     @setEvents()
     window.fluid.addDockMenuItem("Mute", @toggleMute)
 
@@ -105,6 +106,9 @@ class PlugDJFluidApp
         sticky: false
         onclick: @showWindow
       window.fluid.showGrowlNotification(growlOptions)
+
+    if @autowoot
+      $('#button-vote-positive').click()
 
 
 
