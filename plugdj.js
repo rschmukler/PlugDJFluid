@@ -15,6 +15,8 @@
       this.showWindow = __bind(this.showWindow, this);
 
       this.toggleMute = __bind(this.toggleMute, this);
+
+      this.djBoothChange = __bind(this.djBoothChange, this);
       this.muted = false;
       this.setEvents();
       window.fluid.addDockMenuItem("Mute", this.toggleMute);
@@ -23,7 +25,14 @@
     PlugDJFluidApp.prototype.setEvents = function() {
       API.addEventListener(API.USER_FAN, this.newFan);
       API.addEventListener(API.FRIEND_JOIN, this.friendJoin);
-      return API.addEventListener(API.DJ_ADVANCE, this.trackChange);
+      API.addEventListener(API.DJ_ADVANCE, this.trackChange);
+      return API.addEventListener(API.DJ_UPDATE, this.djBoothChange);
+    };
+
+    PlugDJFluidApp.prototype.djBoothChange = function(djs) {
+      if (djs.length < 5) {
+        return this.tryToDJ();
+      }
     };
 
     PlugDJFluidApp.prototype.toggleMute = function() {
@@ -48,6 +57,10 @@
       } else {
         return "" + minutes + ":" + seconds;
       }
+    };
+
+    PlugDJFluidApp.prototype.tryToDJ = function() {
+      return $('#button-dj-play').click();
     };
 
     PlugDJFluidApp.prototype.showWindow = function() {

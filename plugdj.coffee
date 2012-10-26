@@ -8,6 +8,10 @@ class PlugDJFluidApp
     API.addEventListener(API.USER_FAN, @newFan)
     API.addEventListener(API.FRIEND_JOIN, @friendJoin)
     API.addEventListener(API.DJ_ADVANCE, @trackChange)
+    API.addEventListener(API.DJ_UPDATE, @djBoothChange)
+
+  djBoothChange: (djs) =>
+    @tryToDJ() if djs.length < 5
 
   toggleMute: =>
     if @muted
@@ -29,6 +33,9 @@ class PlugDJFluidApp
       return "#{hours}:#{minutes}:#{seconds}"
     else
       return "#{minutes}:#{seconds}"
+
+  tryToDJ: ->
+    $('#button-dj-play').click()
 
 
 
