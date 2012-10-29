@@ -161,6 +161,8 @@
 
   })();
 
-  window.PlugDJFluidApp = new PlugDJFluidApp();
+  $(function() {
+    return window.PlugDJFluidApp = new PlugDJFluidApp();
+  });
 
 }).call(this);

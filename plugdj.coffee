@@ -113,4 +113,6 @@ class PlugDJFluidApp
 
 
 
-window.PlugDJFluidApp = new PlugDJFluidApp()
+$ ->
+  window.PlugDJFluidApp = new PlugDJFluidApp()
+
