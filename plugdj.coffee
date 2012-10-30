@@ -25,25 +25,29 @@ class PlugDJFluidApp
 
 
   chatMessageHappened: (data) =>
-    if @isDJing()
+    if @isInDJBooth()
       if data.type == "message"
         if data.message.match /^\/djs/
           growlOptions =
             title: "DJ Status Ping"
-            description: "Click to show window"
+            description: "Click to chime in"
             sticky: true
-            onclick: @showWindow
+            onclick: @sendPresentMessage
 
           window.fluid.showGrowlNotification(growlOptions)
 
 
-  isDJing: ->
+  isInDJBooth: ->
     username = API.getSelf().username
 
     for dj in API.getDJs()
       return true if dj.username == username
 
     return false
+
+  isActiveDJ: ->
+    username = API.getSelf().username
+    return API.getDJs()[0].username == username
 
 
   toggleMute: =>
@@ -69,7 +73,12 @@ class PlugDJFluidApp
 
   tryToDJ: =>
     $('#button-dj-play').click()
-    @showWindow()
+    #@showWindow()
+
+  sendPresentMessage: =>
+    messages = ["I'm here", "present", "here", "yup"]
+    API.sendChat(messages[Math.floor(Math.random() * messages.length)])
+
 
 
 
@@ -84,7 +93,6 @@ class PlugDJFluidApp
         title: "New fan"
         description: "#{user.username} is now your fan!"
         sticky: false
-        onclick: @showWindow
 
       window.fluid.showGrowlNotification(growlOptions)
 
@@ -94,7 +102,6 @@ class PlugDJFluidApp
         title: "Friend joined"
         description: "#{user.username} has joined the room"
         sticky: false
-        onclick: @showWindow
       window.fluid.showGrowlNotification(growlOptions)
 
   trackChange: (obj) =>
@@ -104,7 +111,6 @@ class PlugDJFluidApp
         title: media.title
         description: "#{media.author} - #{@durationToString(media.duration)}"
         sticky: false
-        onclick: @showWindow
       window.fluid.showGrowlNotification(growlOptions)
 
     if @autowoot

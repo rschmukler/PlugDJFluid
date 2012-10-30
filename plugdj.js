@@ -14,6 +14,8 @@
 
       this.showWindow = __bind(this.showWindow, this);
 
+      this.sendPresentMessage = __bind(this.sendPresentMessage, this);
+
       this.tryToDJ = __bind(this.tryToDJ, this);
 
       this.toggleMute = __bind(this.toggleMute, this);
@@ -52,14 +54,14 @@
 
     PlugDJFluidApp.prototype.chatMessageHappened = function(data) {
       var growlOptions;
-      if (this.isDJing()) {
+      if (this.isInDJBooth()) {
         if (data.type === "message") {
           if (data.message.match(/^\/djs/)) {
             growlOptions = {
               title: "DJ Status Ping",
-              description: "Click to show window",
+              description: "Click to chime in",
               sticky: true,
-              onclick: this.showWindow
+              onclick: this.sendPresentMessage
             };
             return window.fluid.showGrowlNotification(growlOptions);
           }
@@ -67,7 +69,7 @@
       }
     };
 
-    PlugDJFluidApp.prototype.isDJing = function() {
+    PlugDJFluidApp.prototype.isInDJBooth = function() {
       var dj, username, _i, _len, _ref;
       username = API.getSelf().username;
       _ref = API.getDJs();
@@ -78,6 +80,12 @@
         }
       }
       return false;
+    };
+
+    PlugDJFluidApp.prototype.isActiveDJ = function() {
+      var username;
+      username = API.getSelf().username;
+      return API.getDJs()[0].username === username;
     };
 
     PlugDJFluidApp.prototype.toggleMute = function() {
@@ -105,8 +113,13 @@
     };
 
     PlugDJFluidApp.prototype.tryToDJ = function() {
-      $('#button-dj-play').click();
-      return this.showWindow();
+      return $('#button-dj-play').click();
+    };
+
+    PlugDJFluidApp.prototype.sendPresentMessage = function() {
+      var messages;
+      messages = ["I'm here", "present", "here", "yup"];
+      return API.sendChat(messages[Math.floor(Math.random() * messages.length)]);
     };
 
     PlugDJFluidApp.prototype.showWindow = function() {
@@ -120,8 +133,7 @@
         growlOptions = {
           title: "New fan",
           description: "" + user.username + " is now your fan!",
-          sticky: false,
-          onclick: this.showWindow
+          sticky: false
         };
         return window.fluid.showGrowlNotification(growlOptions);
       }
@@ -133,8 +145,7 @@
         growlOptions = {
           title: "Friend joined",
           description: "" + user.username + " has joined the room",
-          sticky: false,
-          onclick: this.showWindow
+          sticky: false
         };
         return window.fluid.showGrowlNotification(growlOptions);
       }
@@ -147,8 +158,7 @@
         growlOptions = {
           title: media.title,
           description: "" + media.author + " - " + (this.durationToString(media.duration)),
-          sticky: false,
-          onclick: this.showWindow
+          sticky: false
         };
         window.fluid.showGrowlNotification(growlOptions);
       }
