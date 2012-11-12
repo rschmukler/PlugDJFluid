@@ -25,5 +25,5 @@ Growl notifications).
 
 3) Add a userscript for `http://*plug.dj*`
 
-4) Paste the contests of `plugdj.js` into the userscript window.
+4) Paste the contests of `js/plugdj.js` into the userscript window.
 
